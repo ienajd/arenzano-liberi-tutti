@@ -106,6 +106,7 @@ function cancella(k){try{localStorage.removeItem('arenzanolt.'+k)}catch(e){}}
 const tocco=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 /* motore 3D vero (three.js): si carica all'avvio; dove la scheda video non c'è resta spento */
 let THREE=null;
+const VERSIONE='22/11/2026, ore 19:59';   // la riempie monta.py
 const URL_THREE='https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
 const T3={ok:false,r:null,sc:null,cam:null,gruppo:null,mat:{},tx:{},chunk:300,aniso:4};
 const QUOTA=.2;   // i piedi stanno all'altezza dell'asfalto
@@ -607,6 +608,7 @@ function modelloVeicolo(tipo,col,L){
   return P
 }
 function spriteVeicolo(v,dir,conPilota){ const d=VEICOLI[v.tipo], key='v|'+v.tipo+'|'+v.col+'|'+dir+'|'+(conPilota?conPilota.id:0); let t=_sp[key]; if(t) return t;
+  if(d.mod&&typeof MODELLI!=='undefined'&&MODELLI.auto[d.mod]){ try{ return _sp[key]=rendiAuto(v.tipo,d.tinta||v.col,-dir*Math.PI/8,{ppm:d.ppm*1.4,w:d.w,h:d.h,base:d.base,pitch:.2}) }catch(e){ d.mod=null } }   // il modello vero; se va storto, la sagoma a scatole
   return _sp[key]=rendi(modelloVeicolo(v.tipo,v.col,conPilota),-dir*Math.PI/8,{ppm:d.ppm,w:d.w,h:d.h,base:d.base,pitch:.2}) }
 
 /* ---------- alberi e arredo, disegnati a mano una volta sola ---------- */
@@ -1169,7 +1171,7 @@ ov.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||b.
 function nuovaPartita(){ if(G.dentro) lasciaDentro(); io.storia=0; G.inc=null; G.meta=null; Object.assign(io,{salute:100,energia:100,soldi:40,conto:800,forza:1,dest:0,vel:0,guida:0,zaino:[],provati:{},casa:false,box:false,scooter:null,look:null}); io.stat={pugni:0,ko:0,furti:0,rapine:0,arresti:0,consegne:0,treni:0,spesi:0}; faiLooks(); G.ora=9.5; G.giorno=1; G.stelle=0; entraInCitta('arenzano');
   avviso('Sei appena sceso dal treno con 40 euro in tasca. La città è tua.',6); avviso(tocco?'Leva per camminare · E per entrare nei negozi · 🗺 per la mappa':'W A S D per camminare · E per entrare nei negozi · M per la mappa',9) }
 function schermoTitolo(){ if(G.dentro) lasciaDentro(); G.stato='titolo'; const c=leggi('partita',null);
-  apri('<div class="carta" style="max-width:520px"><h1>ARENZANO<b>LIBERI TUTTI</b></h1><p>Il centro di Arenzano com\'è davvero: le vie, i palazzi, i negozi con i loro nomi, la stazione, il lungomare. Passeggi, compri, ti alleni, prendi il treno. Oppure rubi, meni le mani e scappi dai carabinieri.</p><div class="riga">'+(c?'<button class="b" data-a="continua">Continua'+(PERSONAGGI[c.pers]?' con '+PERSONAGGI[c.pers].nome:'')+'</button>':'')+'</div><p class="sotto" style="margin:14px 0 0">'+(c?'Nuova partita: ':'')+'scegli con chi giocare</p><div class="riga" style="margin-top:6px"><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="tommy">🟥 Tommy<br><small style="font-weight:400">il più piccolo, maglia rossa</small></button><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="marty">🟦 Marty<br><small style="font-weight:400">il più grande, pigiama a quadretti</small></button></div><div class="riga"><button class="b sec" data-a="come">Come si gioca</button></div>'+(tocco&&innerHeight>innerWidth?'<p style="color:#ffd24a">Gira il telefono in orizzontale: si gioca molto meglio.</p>':'')+(T3.ok?'':'<p style="color:#ffd24a">Su questo dispositivo la grafica 3D vera non parte: stai vedendo la versione semplice. Su iPhone, iPad e computer recenti il gioco è molto più bello.</p>')+'<p class="sotto" style="margin-top:14px">Mappa © OpenStreetMap contributors. È un gioco: nomi e luoghi sono veri, tutto quello che succede è inventato.</p></div>',false) }
+  apri('<div class="carta" style="max-width:520px"><h1>ARENZANO<b>LIBERI TUTTI</b></h1><p>Il centro di Arenzano com\'è davvero: le vie, i palazzi, i negozi con i loro nomi, la stazione, il lungomare. Passeggi, compri, ti alleni, prendi il treno. Oppure rubi, meni le mani e scappi dai carabinieri.</p><div class="riga">'+(c?'<button class="b" data-a="continua">Continua'+(PERSONAGGI[c.pers]?' con '+PERSONAGGI[c.pers].nome:'')+'</button>':'')+'</div><p class="sotto" style="margin:14px 0 0">'+(c?'Nuova partita: ':'')+'scegli con chi giocare</p><div class="riga" style="margin-top:6px"><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="tommy">🟥 Tommy<br><small style="font-weight:400">il più piccolo, maglia rossa</small></button><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="marty">🟦 Marty<br><small style="font-weight:400">il più grande, pigiama a quadretti</small></button></div><div class="riga"><button class="b sec" data-a="come">Come si gioca</button></div>'+(tocco&&innerHeight>innerWidth?'<p style="color:#ffd24a">Gira il telefono in orizzontale: si gioca molto meglio.</p>':'')+(T3.ok?'':'<p style="color:#ffd24a">Su questo dispositivo la grafica 3D vera non parte: stai vedendo la versione semplice. Su iPhone, iPad e computer recenti il gioco è molto più bello.</p>')+'<p class="sotto" style="margin-top:14px">Mappa © OpenStreetMap contributors. È un gioco: nomi e luoghi sono veri, tutto quello che succede è inventato.</p><p class="sotto" style="margin-top:6px;opacity:.7">Versione del '+VERSIONE+' · grafica '+(T3.ok?'3D':'semplice')+'</p></div>',false) }
 function schermoCome(){ apri('<div class="carta"><h2>Come si gioca</h2><div class="tasti">'+
   (tocco?'<kbd>leva</kbd><span>cammini e giri</span><kbd>trascina</kbd><span>guardi intorno</span><kbd>E</kbd><span>entri nei locali, ti siedi, ordini, parli con la gente, sali sui veicoli</span><kbd>👊</kbd><span>pugno</span><kbd>🤏</kbd><span>borseggi chi hai accanto (meglio da dietro)</span><kbd>🏃</kbd><span>corri (consuma energia)</span><kbd>🗺</kbd><span>mappa</span>'
   :'<kbd>W A S D</kbd><span>cammini e giri (anche con le frecce)</span><kbd>clic</kbd><span>blocchi il mouse per guardarti intorno, e dai pugni</span><kbd>Maiusc</kbd><span>corri (consuma energia)</span><kbd>E</kbd><span>entri nei locali, ti siedi, ordini, parli con la gente, sali sui veicoli</span><kbd>T</kbd><span>parli con chi hai davanti</span><kbd>H</kbd><span>clacson, quando guidi: chi è davanti si sposta</span><kbd>Spazio</kbd><span>pugno</span><kbd>R</kbd><span>borseggi chi hai accanto (meglio da dietro)</span><kbd>M</kbd><span>mappa della città</span><kbd>Esc</kbd><span>pausa</span>')+
@@ -2017,8 +2019,8 @@ Object.assign(AZ,{ storiaSi(){ const d=datoreStoria(); chiudi(); G.stato='gioco'
 
 /* ===== 13 · AUTO E MEZZI =====
    Il catalogo dei mezzi: ognuno ha il suo modello 3D (file 00-modelli.js, modelli CC0 di Kenney), la sua velocità,
-   la sua ripresa, il suo rombo e il suo clacson. Nella versione semplice (senza 3D) i mezzi nuovi sono disegnati
-   con le forme «auto» o «furgone» allungate alla misura giusta.
+   la sua ripresa, il suo rombo e il suo clacson. Nella versione semplice (senza 3D) gli stessi modelli sono disegnati
+   su tela da «rendiAuto», in fondo a questo file; scooter e motocarro restano a scatole.
    suono: f nota del motore al minimo · g marce · k quanto sale di giri · lp quanto è cupo · sub quanto «borbotta» (diesel) */
 Object.assign(VEICOLI.auto,{nome:'berlina',mod:'berlina',art:'una berlina',sc:[1.07,1.15,1.12],suono:{f:55,g:5,k:2.1,lp:400,vol:.05,sub:.15},clac:[415,520]});
 Object.assign(VEICOLI.cc,{mod:'berlina',art:'la gazzella dei carabinieri',tinta:'#14182a',sc:[1.07,1.15,1.12],suono:{f:58,g:5,k:2.3,lp:520,vol:.055,sub:.2},clac:[440,554]});
@@ -2080,6 +2082,38 @@ function autoModelli3(sc){
 function ruote3(v,mv){ if(!P3.w1){ P3.w1=new THREE.Matrix4(); P3.w2=new THREE.Matrix4(); P3.q2=new THREE.Quaternion(); P3.p2=new THREE.Vector3(); P3.s2=new THREE.Vector3() }
   for(const r of mv.rr){ const R3=T3.ruote[r[0]]; if(!R3||R3.count>=360) continue; P3.e.set(0,r[1]>0?-(v.sterzo||0):0,-(v.km||0)/r[2],'YZX'); P3.q2.setFromEuler(P3.e); P3.e.order='XYZ'; P3.p2.set(r[1],r[2],r[3]); P3.s2.set(r[4],r[4],r[5]);
     P3.w1.compose(P3.p2,P3.q2,P3.s2); P3.w2.multiplyMatrices(P3.m,P3.w1); R3.setMatrixAt(R3.count++,P3.w2) } }
+
+/* ---------- versione semplice (senza scheda video): gli stessi modelli, disegnati triangolo per triangolo ----------
+   Niente 3D vero: ogni mezzo viene «fotografato» una volta per colore e per direzione su una tela piccola, con un
+   controllo di profondità punto per punto (chi è davanti copre chi è dietro), poi rimpicciolito per avere bordi morbidi. */
+function datiModello(m){ if(m._d) return m._d; const q=b64a(m.p,Uint16Array), n=q.length/3, P=new Float32Array(n*3);
+  for(let i=0;i<n;i++){ P[i*3]=m.o[0]+q[i*3]*m.s[0]; P[i*3+1]=m.o[1]+q[i*3+1]*m.s[1]; P[i*3+2]=m.o[2]+q[i*3+2]*m.s[2] }
+  return m._d={P:P,k:b64a(m.k,Uint8Array),I:b64a(m.i,Uint16Array),pal:m.pal.map(hex),nt:m.nt||0} }
+function rendiAuto(tipo,col,yaw,o){
+  const d=VEICOLI[tipo], m=MODELLI.auto[d.mod], S=2, ppm=o.ppm*S, cw=Math.ceil(o.w*o.ppm), ch=Math.ceil(o.h*o.ppm), W=cw*S, H=ch*S;
+  const t0=tela(W,H), g0=t0.getContext('2d'), im=g0.createImageData(W,H), px=im.data, zb=new Float32Array(W*H).fill(-1e9);
+  const cy=Math.cos(yaw), sy=Math.sin(yaw), ph=o.pitch===undefined?.2:o.pitch, cp=Math.cos(ph), sp=Math.sin(ph), ox=W/2, oy=H-o.base*ppm;
+  const tinta=hex(col).map(v=>Math.pow(v/255,2.2));
+  /* un punto del modello (x in avanti, y in alto, z di lato) visto dalla macchina fotografica */
+  const vista=(x,y,z,V,i)=>{ const X=-z*cy+x*sy, Z=z*sy+x*cy; V[i]=X; V[i+1]=y*cp-Z*sp; V[i+2]=Z*cp+y*sp };
+  const tri=(V,a,b,c,col,vern)=>{ const ax=V[a],ay=V[a+1],az=V[a+2], bx=V[b],by=V[b+1],bz=V[b+2], cx=V[c],cy2=V[c+1],cz=V[c+2];
+    let nx=(by-ay)*(cz-az)-(bz-az)*(cy2-ay), ny=(bz-az)*(cx-ax)-(bx-ax)*(cz-az), nz=(bx-ax)*(cy2-ay)-(by-ay)*(cx-ax); const nl=Math.hypot(nx,ny,nz); if(nl<1e-9) return; nx/=nl; ny/=nl; nz/=nl; if(nz<0){ nx=-nx; ny=-ny; nz=-nz }
+    const lu=.6+.4*Math.max(0,nx*LUCE[0]+ny*LUCE[1]+nz*LUCE[2])+(ny>.7?.08:0); let r=col[0], g=col[1], bl=col[2];
+    if(vern){ r=255*Math.pow(Math.pow(r/255,2.2)*tinta[0],.4545); g=255*Math.pow(Math.pow(g/255,2.2)*tinta[1],.4545); bl=255*Math.pow(Math.pow(bl/255,2.2)*tinta[2],.4545) }
+    r=Math.min(255,r*lu); g=Math.min(255,g*lu); bl=Math.min(255,bl*lu);
+    const x0=ox+ax*ppm, y0=oy-ay*ppm, x1=ox+bx*ppm, y1=oy-by*ppm, x2=ox+cx*ppm, y2=oy-cy2*ppm, area=(x1-x0)*(y2-y0)-(y1-y0)*(x2-x0); if(Math.abs(area)<1e-6) return;
+    const ia=1/area, xa=Math.max(0,Math.floor(Math.min(x0,x1,x2))), xb=Math.min(W-1,Math.ceil(Math.max(x0,x1,x2))), ya=Math.max(0,Math.floor(Math.min(y0,y1,y2))), yb=Math.min(H-1,Math.ceil(Math.max(y0,y1,y2)));
+    for(let y=ya;y<=yb;y++){ const py=y+.5; for(let x=xa;x<=xb;x++){ const qx=x+.5, w0=((x1-qx)*(y2-py)-(y1-py)*(x2-qx))*ia, w1=((x2-qx)*(y0-py)-(y2-py)*(x0-qx))*ia, w2=1-w0-w1; if(w0<-.002||w1<-.002||w2<-.002) continue;
+      const z=w0*az+w1*bz+w2*cz, k=y*W+x; if(z<=zb[k]) continue; zb[k]=z; const j=k*4; px[j]=r; px[j+1]=g; px[j+2]=bl; px[j+3]=255 } } };
+  /* un pezzo: i punti passano da «metti», che lo sposta e lo allarga dove serve (le ruote) */
+  const pezzo=(D,metti,vern)=>{ const n=D.P.length/3, V=new Float32Array(n*3), q=[0,0,0]; for(let i=0;i<n;i++){ metti(D.P[i*3],D.P[i*3+1],D.P[i*3+2],q); vista(q[0],q[1],q[2],V,i*3) }
+    for(let t=0;t<D.I.length;t+=3) tri(V,D.I[t]*3,D.I[t+1]*3,D.I[t+2]*3,D.pal[D.k[D.I[t]]],vern&&t<D.nt) };
+  const scatola=(x,y,z,lx,ly,lz,col)=>{ const V=new Float32Array(24), c=hex(col); for(let i=0;i<8;i++) vista(x+(i&1?lx:-lx)/2,y+(i&2?ly:-ly)/2,z+(i&4?lz:-lz)/2,V,i*3);
+    for(const f of [[0,1,3,2],[4,5,7,6],[0,1,5,4],[2,3,7,6],[0,2,6,4],[1,3,7,5]]){ tri(V,f[0]*3,f[1]*3,f[2]*3,c,false); tri(V,f[0]*3,f[2]*3,f[3]*3,c,false) } };
+  pezzo(datiModello(m),(x,y,z,q)=>{ q[0]=x; q[1]=y; q[2]=z },true);
+  for(const r of m.rr||[]){ const R=MODELLI.ruote[r[0]]; if(R) pezzo(datiModello(R),(x,y,z,q)=>{ q[0]=r[1]+x*r[4]; q[1]=r[2]+y*r[4]; q[2]=r[3]+z*r[5] },false) }
+  if(tipo==='cc'){ const D=m.dim; scatola(-.12,D[1]+.05,0,.26,.11,.84,'#2a5ae6'); scatola(-.12,D[1]+.05,0,.1,.12,.2,'#f2f2f2'); scatola(-.1,D[1]*.5,D[2]/2+.004,D[0]*.5,.09,.03,'#c8201e'); scatola(-.1,D[1]*.5,-D[2]/2-.004,D[0]*.5,.09,.03,'#c8201e') }
+  g0.putImageData(im,0,0); const t=tela(cw,ch), g=t.getContext('2d'); g.imageSmoothingEnabled=true; g.imageSmoothingQuality='high'; g.drawImage(t0,0,0,cw,ch); return t }
 
 /* ===== 14 · INTERNI SU MISURA =====
    Ogni locale può avere una scheda (p.look.in, scritta dal rilievo: mappa/rilievo-<città>.txt, righe «I»):
