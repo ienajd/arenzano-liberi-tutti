@@ -106,7 +106,7 @@ function cancella(k){try{localStorage.removeItem('arenzanolt.'+k)}catch(e){}}
 const tocco=('ontouchstart' in window)||navigator.maxTouchPoints>0;
 /* motore 3D vero (three.js): si carica all'avvio; dove la scheda video non c'è resta spento */
 let THREE=null;
-const VERSIONE='22/11/2026, ore 19:59';   // la riempie monta.py
+const VERSIONE='22/11/2026, ore 20:16';   // la riempie monta.py
 const URL_THREE='https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
 const T3={ok:false,r:null,sc:null,cam:null,gruppo:null,mat:{},tx:{},chunk:300,aniso:4};
 const QUOTA=.2;   // i piedi stanno all'altezza dell'asfalto
@@ -1171,7 +1171,7 @@ ov.addEventListener('click',e=>{ const b=e.target.closest('[data-a]'); if(!b||b.
 function nuovaPartita(){ if(G.dentro) lasciaDentro(); io.storia=0; G.inc=null; G.meta=null; Object.assign(io,{salute:100,energia:100,soldi:40,conto:800,forza:1,dest:0,vel:0,guida:0,zaino:[],provati:{},casa:false,box:false,scooter:null,look:null}); io.stat={pugni:0,ko:0,furti:0,rapine:0,arresti:0,consegne:0,treni:0,spesi:0}; faiLooks(); G.ora=9.5; G.giorno=1; G.stelle=0; entraInCitta('arenzano');
   avviso('Sei appena sceso dal treno con 40 euro in tasca. La città è tua.',6); avviso(tocco?'Leva per camminare · E per entrare nei negozi · 🗺 per la mappa':'W A S D per camminare · E per entrare nei negozi · M per la mappa',9) }
 function schermoTitolo(){ if(G.dentro) lasciaDentro(); G.stato='titolo'; const c=leggi('partita',null);
-  apri('<div class="carta" style="max-width:520px"><h1>ARENZANO<b>LIBERI TUTTI</b></h1><p>Il centro di Arenzano com\'è davvero: le vie, i palazzi, i negozi con i loro nomi, la stazione, il lungomare. Passeggi, compri, ti alleni, prendi il treno. Oppure rubi, meni le mani e scappi dai carabinieri.</p><div class="riga">'+(c?'<button class="b" data-a="continua">Continua'+(PERSONAGGI[c.pers]?' con '+PERSONAGGI[c.pers].nome:'')+'</button>':'')+'</div><p class="sotto" style="margin:14px 0 0">'+(c?'Nuova partita: ':'')+'scegli con chi giocare</p><div class="riga" style="margin-top:6px"><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="tommy">🟥 Tommy<br><small style="font-weight:400">il più piccolo, maglia rossa</small></button><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="marty">🟦 Marty<br><small style="font-weight:400">il più grande, pigiama a quadretti</small></button></div><div class="riga"><button class="b sec" data-a="come">Come si gioca</button></div>'+(tocco&&innerHeight>innerWidth?'<p style="color:#ffd24a">Gira il telefono in orizzontale: si gioca molto meglio.</p>':'')+(T3.ok?'':'<p style="color:#ffd24a">Su questo dispositivo la grafica 3D vera non parte: stai vedendo la versione semplice. Su iPhone, iPad e computer recenti il gioco è molto più bello.</p>')+'<p class="sotto" style="margin-top:14px">Mappa © OpenStreetMap contributors. È un gioco: nomi e luoghi sono veri, tutto quello che succede è inventato.</p><p class="sotto" style="margin-top:6px;opacity:.7">Versione del '+VERSIONE+' · grafica '+(T3.ok?'3D':'semplice')+'</p></div>',false) }
+  apri('<div class="carta" style="max-width:520px"><h1>ARENZANO<b>LIBERI TUTTI</b></h1><p>Il centro di Arenzano com\'è davvero: le vie, i palazzi, i negozi con i loro nomi, la stazione, il lungomare. Passeggi, compri, ti alleni, prendi il treno. Oppure rubi, meni le mani e scappi dai carabinieri.</p><div class="riga">'+(c?'<button class="b" data-a="continua">Continua'+(PERSONAGGI[c.pers]?' con '+PERSONAGGI[c.pers].nome:'')+'</button>':'')+'</div><p class="sotto" style="margin:14px 0 0">'+(c?'Nuova partita: ':'')+'scegli con chi giocare</p><div class="riga" style="margin-top:6px"><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="tommy">🟥 Tommy<br><small style="font-weight:400">il più piccolo, maglia rossa</small></button><button class="b'+(c?' sec':'')+'" data-a="gioca" data-k="marty">🟦 Marty<br><small style="font-weight:400">il più grande, pigiama a quadretti</small></button></div><div class="riga"><button class="b sec" data-a="come">Come si gioca</button></div>'+(tocco&&innerHeight>innerWidth?'<p style="color:#ffd24a">Gira il telefono in orizzontale: si gioca molto meglio.</p>':'')+(T3.ok?'':'<p style="color:#ffd24a">Su questo dispositivo la grafica 3D vera non parte: stai vedendo la versione semplice. Su iPhone, iPad e computer recenti il gioco è molto più bello.</p>')+'<p class="sotto" style="margin-top:14px">Mappa © OpenStreetMap contributors. È un gioco: nomi e luoghi sono veri, tutto quello che succede è inventato.</p><p class="sotto" style="margin-top:6px;opacity:.7">Versione del '+VERSIONE+' · grafica '+(T3.ok?'3D'+(T3.noModelli?' · modelli delle auto non montati ('+T3.noModelli+')':''):'semplice'+(T3.errore?' ('+T3.errore+')':''))+'</p></div>',false); controllaVersione() }
 function schermoCome(){ apri('<div class="carta"><h2>Come si gioca</h2><div class="tasti">'+
   (tocco?'<kbd>leva</kbd><span>cammini e giri</span><kbd>trascina</kbd><span>guardi intorno</span><kbd>E</kbd><span>entri nei locali, ti siedi, ordini, parli con la gente, sali sui veicoli</span><kbd>👊</kbd><span>pugno</span><kbd>🤏</kbd><span>borseggi chi hai accanto (meglio da dietro)</span><kbd>🏃</kbd><span>corri (consuma energia)</span><kbd>🗺</kbd><span>mappa</span>'
   :'<kbd>W A S D</kbd><span>cammini e giri (anche con le frecce)</span><kbd>clic</kbd><span>blocchi il mouse per guardarti intorno, e dai pugni</span><kbd>Maiusc</kbd><span>corri (consuma energia)</span><kbd>E</kbd><span>entri nei locali, ti siedi, ordini, parli con la gente, sali sui veicoli</span><kbd>T</kbd><span>parli con chi hai davanti</span><kbd>H</kbd><span>clacson, quando guidi: chi è davanti si sposta</span><kbd>Spazio</kbd><span>pugno</span><kbd>R</kbd><span>borseggi chi hai accanto (meglio da dietro)</span><kbd>M</kbd><span>mappa della città</span><kbd>Esc</kbd><span>pausa</span>')+
@@ -1285,6 +1285,18 @@ addEventListener('resize',misura); addEventListener('orientationchange',()=>setT
   tasto('bA',()=>azione()); tasto('bP',()=>pugno()); tasto('bR',()=>borseggia()); tasto('bM',()=>{ G.mappa=!G.mappa }); tasto('bMenu',()=>schermoPausa());
   tasto('bC',b=>{ G.corsa=!G.corsa; b.classList.toggle('att',G.corsa) });
 })();
+
+/* ---------- versione nuova in rete ----------
+   La pagina pubblica ha accanto «versione.txt» (lo scrive pubblica.sh). Telefoni e tablet tengono volentieri in memoria
+   la pagina vecchia, soprattutto se il gioco è stato messo sulla schermata Home: qui si confronta la data e, se in rete
+   ce n'è una più nuova, al titolo la pagina si ricarica da sola (una volta sola per versione); in partita lo dice e basta. */
+function controllaVersione(){ if(!/^https?:$/.test(location.protocol)||VERSIONE.charAt(0)==='_'||!window.fetch) return;
+  fetch('versione.txt?t='+Date.now(),{cache:'no-store'}).then(r=>r.ok?r.text():'').then(t=>{ t=(t||'').trim(); if(!t||t.length>40||t.charAt(0)==='<'||t===VERSIONE) return;
+    if((G.stato!=='titolo'&&G.stato!=='carica')||G.dentro){ if(G.nuova!==t){ G.nuova=t; avviso('È uscita una versione nuova del gioco: arriva da sola quando torni al titolo.',7) } return }
+    let gia=''; try{ gia=sessionStorage.getItem('arenzanolt.agg')||'' }catch(e){} if(gia===t) return; try{ sessionStorage.setItem('arenzanolt.agg',t) }catch(e){ return }
+    const u=new URL(location.href); u.searchParams.set('v',t.replace(/\D/g,'')); location.replace(u.toString()) }).catch(()=>{}) }
+document.addEventListener('visibilitychange',()=>{ if(!document.hidden) controllaVersione() });
+addEventListener('pageshow',e=>{ if(e.persisted) controllaVersione() });
 
 async function avvio(){
   await caricaDati(); misura(); faiDettagli(); faiPanorama(); faiLooks(); await tre_avvia(); misura(); caricaCitta('arenzano'); calcolaLuce(G.ora);
@@ -2073,11 +2085,12 @@ function cosa3(nome){ const m=MODELLI.cose[nome]; return m?geoModello(m).g:null 
 function autoModelli3(sc){
   T3.mat.vernice=new THREE.MeshPhongMaterial({vertexColors:true,shininess:80,specular:new THREE.Color(.42,.42,.42)});
   const im=(g,mat,n)=>{ const m=new THREE.InstancedMesh(g,mat,n); m.castShadow=true; m.receiveShadow=true; m.frustumCulled=false; m.count=0; m.instanceMatrix.setUsage(THREE.DynamicDrawUsage); sc.add(m); return m };
-  T3.ruote={}; for(const k in MODELLI.ruote) T3.ruote[k]=im(geoModello(MODELLI.ruote[k]).g,T3.mat.oggetti,360);
-  for(const tipo in VEICOLI){ const d=VEICOLI[tipo], m=d.mod&&MODELLI.auto[d.mod]; if(!m) continue; const G0=geoModello(m); let resto=G0.resto;
+  T3.ruote={}; try{ for(const k in MODELLI.ruote) T3.ruote[k]=im(geoModello(MODELLI.ruote[k]).g,T3.mat.oggetti,360) }catch(e){ T3.noModelli='ruote: '+e.message; return }
+  /* un mezzo alla volta: se un modello non si monta su questo dispositivo resta la forma di prima, e il titolo lo dice */
+  for(const tipo in VEICOLI){ const d=VEICOLI[tipo], m=d.mod&&MODELLI.auto[d.mod]; if(!m) continue; try{ const G0=geoModello(m); let resto=G0.resto;
     if(tipo==='cc'){ const D=m.dim; resto=unisci([{g:G0.resto},{g:scat(.26,.11,.84),m:M4(-.12,D[1]+.05,0),c:'#2a5ae6'},{g:scat(.1,.12,.2),m:M4(-.12,D[1]+.05,0),c:'#f2f2f2'},{g:scat(D[0]*.5,.09,.03),m:M4(-.1,D[1]*.5,D[2]/2+.004),c:'#c8201e'},{g:scat(D[0]*.5,.09,.03),m:M4(-.1,D[1]*.5,-D[2]/2-.004),c:'#c8201e'}]) }
-    const old=T3.veic[tipo]; if(old){ sc.remove(old.c); sc.remove(old.d) }
-    const c1=G0.vernice?im(G0.vernice,T3.mat.vernice,120):null, d1=im(resto,T3.mat.oggetti,120); if(c1) c1.setColorAt(0,new THREE.Color(1,1,1)); T3.veic[tipo]={c:c1,d:d1,rr:m.rr,dim:m.dim} } }
+    const c1=G0.vernice?im(G0.vernice,T3.mat.vernice,120):null, d1=im(resto,T3.mat.oggetti,120); if(c1) c1.setColorAt(0,new THREE.Color(1,1,1));
+    const old=T3.veic[tipo]; if(old){ sc.remove(old.c); sc.remove(old.d) } T3.veic[tipo]={c:c1,d:d1,rr:m.rr,dim:m.dim} }catch(e){ T3.noModelli=tipo+': '+e.message } } }
 /* le quattro ruote di un mezzo: girano con la strada fatta e quelle davanti sterzano */
 function ruote3(v,mv){ if(!P3.w1){ P3.w1=new THREE.Matrix4(); P3.w2=new THREE.Matrix4(); P3.q2=new THREE.Quaternion(); P3.p2=new THREE.Vector3(); P3.s2=new THREE.Vector3() }
   for(const r of mv.rr){ const R3=T3.ruote[r[0]]; if(!R3||R3.count>=360) continue; P3.e.set(0,r[1]>0?-(v.sterzo||0):0,-(v.km||0)/r[2],'YZX'); P3.q2.setFromEuler(P3.e); P3.e.order='XYZ'; P3.p2.set(r[1],r[2],r[3]); P3.s2.set(r[4],r[4],r[5]);
