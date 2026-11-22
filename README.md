@@ -6,3 +6,4 @@ Vie, palazzi e negozi sono quelli veri, presi da OpenStreetMap. Tutto quello che
 Tastiera e mouse (W A S D, E per entrare, M per la mappa) oppure a tocco, con il telefono in orizzontale.
 
 Mappa © OpenStreetMap contributors, licenza ODbL.
+Modelli 3D di auto e arredi: Kenney (www.kenney.nl), licenza CC0.
